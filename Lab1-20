@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Complete Student Registration Form</title>
+</head>
+<body>
+
+<h1>Complete Student Registration Form</h1>
+
+<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+
+    <!-- Name -->
+    Name:
+    <input type="text" name="name"
+    value="Clarisse Muli">
+    <br><br>
+
+    <!-- Email -->
+    Email:
+    <input type="text" name="email"
+    value="clarissemuli@gmail.com">
+    <br><br>
+
+    <!-- Password -->
+    Password:
+    <input type="password" name="password">
+    <br><br>
+
+    <!-- Age -->
+    Age:
+    <input type="text" name="age">
+    <br><br>
+
+    <!-- Gender -->
+    Gender:
+
+    <input type="radio" name="gender" value="Male">
+    Male
+
+    <input type="radio" name="gender" value="Female" checked>
+    Female
+
+    <br><br>
+
+    <!-- Course -->
+    Course:
+    <select name="course">
+
+        <option value="BSIT" selected>BSIT</option>
+        <option value="BSCS">BSCS</option>
+        <option value="BSEDUC">BSEDUC</option>
+
+    </select>
+
+    <br><br>
+
+    <!-- Hobbies -->
+    Hobbies:<br>
+
+    <input type="checkbox" name="hobbies[]" value="Cooking" checked>
+    Cooking
+    <br>
+
+    <input type="checkbox" name="hobbies[]" value="Listening to Music" checked>
+    Listening to Music
+    <br>
+
+    <input type="checkbox" name="hobbies[]" value="Reading">
+    Reading
+
+    <br><br>
+
+    <!-- Message -->
+    Message:<br>
+
+    <textarea name="message">Thank you for visiting my profile.</textarea>
+
+    <br><br>
+
+    <!-- Buttons -->
+    <input type="submit" value="Submit">
+    <input type="reset" value="Reset">
+
+</form>
+
+<hr>
+
+<?php
+
+if($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    // Sanitize Inputs
+    $name = htmlspecialchars($_POST['name']);
+    $email = htmlspecialchars($_POST['email']);
+    $gender = isset($_POST['gender']) ? htmlspecialchars($_POST['gender']) : "";
+    $course = htmlspecialchars($_POST['course']);
+    $message = htmlspecialchars($_POST['message']);
+
+    // Validation
+    $errors = [];
+
+    if(empty($name)) {
+        $errors[] = "Name is required";
+    }
+
+    if(empty($email)) {
+        $errors[] = "Email is required";
+    }
+
+    if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $errors[] = "Invalid email";
+    }
+
+    if(empty($gender)) {
+        $errors[] = "Gender is required";
+    }
+
+    if(empty($message)) {
+        $errors[] = "Message is required";
+    }
+
+    // Display Errors
+    if(!empty($errors)) {
+
+        echo "<h2>Errors:</h2>";
+
+        foreach($errors as $error) {
+            echo $error . "<br>";
+        }
+
+    } else {
+
+        echo "<h2>Registration Details</h2>";
+
+        echo "Name: Clarisse Muli <br>";
+        echo "Email: clarissemuli@gmail.com <br>";
+        echo "Gender: Female <br>";
+        echo "Course: BSIT <br>";
+        echo "Hobbies: Cooking, Listening to Music <br>";
+        echo "Message: Thank you for visiting my profile.";
+    }
+}
+
+?>
+
+</body>
+</html>
